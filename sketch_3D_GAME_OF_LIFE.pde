@@ -25,12 +25,15 @@ void setup()
     }
    }
   }
+  
 }
 
 void draw()
 {
   background(255);
-  translate(640, 400, 0);
+  
+  text(mouseX, 10, 10);
+  text(mouseY, 10, 30);
    
      int z;
   int x;
@@ -72,7 +75,9 @@ void draw()
      fill(0);
     
      
-     translate(i * cellSize, j * cellSize, l * cellSize);
+     //translate(i * cellSize + ((width/2) - ((cellCount * cellSize/2))), j * cellSize + ((height/2) - ((cellCount * cellSize)/2)), l * cellSize);
+     
+      translate(i * cellSize + 390, j * cellSize + 150, l * cellSize);
      
      fill(coloursForCell[i][j][l][0], coloursForCell[i][j][l][1], coloursForCell[i][j][l][2]);
      
