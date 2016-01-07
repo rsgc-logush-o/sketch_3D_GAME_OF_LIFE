@@ -1,12 +1,15 @@
-int cellCount = 20;
+int cellCount = 50;
+int cellSize = 10;
 boolean cells[][][];
 float probabilityAtStart = .3;
+int coloursForCell[][][][];
 
 void setup()
 {
  // size(500, 500, P3D);
   fullScreen(P3D);
   cells = new boolean[cellCount][cellCount][cellCount];
+  coloursForCell = new int[cellCount][cellCount][cellCount][3];
   
   for(int i = 0; i < cellCount; i++)
   {
@@ -15,6 +18,10 @@ void setup()
     for(int l = 0; l < cellCount; l++)
     {
      cells[i][j][l] = rndm(probabilityAtStart);
+     for(int k = 0; k < 3; k++)
+     {
+      coloursForCell[i][j][l][k] = (int)random(0, 255);
+     }
     }
    }
   }
@@ -24,10 +31,7 @@ void draw()
 {
   background(255);
   translate(640, 400, 0);
-    noFill();
-    stroke(100);
-    
-    box(400);
+   
      int z;
   int x;
   int y;
@@ -46,11 +50,11 @@ void draw()
      if(l == 0)z = 1;
       else z = 0;
      
-     if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) < 2 && cells[i][j][l] == true)cells[i][j][l] = false;
+     if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) < 4 && cells[i][j][l] == true)cells[i][j][l] = false;
      
-     else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) > 3 && cells[i][j][l] == true)cells[i][j][l] = false;
+     else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) > 9 && cells[i][j][l] == true)cells[i][j][l] = false;
      
-     else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) == 3 && cells[i][j][l] == false)cells[i][j][l] = true;
+     else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) == 9 && cells[i][j][l] == false)cells[i][j][l] = true;
     }
    }
   }
@@ -61,16 +65,21 @@ void draw()
    {
     for(int l = 0; l < cellCount/2; l++)
     {
-      pushMatrix();
-     if(cells[i][j][l] == true)fill(0);
-     else fill(255);
+   
+     if(cells[i][j][l] == true)
+     {
+     pushMatrix();
+     fill(0);
+    
      
-     translate(i * 25, j * 25, l * 25);
+     translate(i * cellSize, j * cellSize, l * cellSize);
      
-     box(25);
+     fill(coloursForCell[i][j][l][0], coloursForCell[i][j][l][1], coloursForCell[i][j][l][2]);
+     
+     box(cellSize);
      
      popMatrix();
-     
+     }
     }
    }
   }
