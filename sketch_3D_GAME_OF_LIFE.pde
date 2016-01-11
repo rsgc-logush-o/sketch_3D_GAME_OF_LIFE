@@ -1,15 +1,21 @@
+//MAKE AN ARRAY FOR THE AMOUNT SURROUNDING EACH THING
+
+
+
+int surroundingCells[][][];
 int cellCount = 100;
 int cellSize = 5;
 boolean cells[][][];
 boolean cellsBuffer[][][];
-float probabilityAtStart = .006;
+float probabilityAtStart = .009;
 int coloursForCell[][][][];
 int zoom = cellCount * cellSize;
 void setup()
 {
  // size(500, 500, P3D);
- frameRate(1);
+ frameRate(3);
   fullScreen(P3D);
+  surroundingCells = new int[cellCount][cellCount][cellCount];
   cells = new boolean[cellCount][cellCount][cellCount];
   cellsBuffer = new boolean[cellCount][cellCount][cellCount];
   coloursForCell = new int[cellCount][cellCount][cellCount][3];
@@ -67,32 +73,31 @@ void draw()
    }
   }
    
-     int z;
-  int x;
-  int y;
-  for(int i = 0; i < cellCount; i++)
-  {
-     if(i == 0)x = 1;
-    else x = 0;
-   for(int j = 0; j < cellCount; j++)
-   {
-     if(j == 0)y = 1;
-     else y = 0;
-    for(int l = 0; l < cellCount; l++)
-    {
-      
-     //add the if statement after calling surrounding squares here 
-     if(l == 0)z = 1;
-      else z = 0;
+  countSurrounding();
      
-     if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) < 2 && cellsBuffer[i][j][l] == true)cells[i][j][l] = false;
+     //if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) < 1 && cellsBuffer[i][j][l] == true)cells[i][j][l] = false;
      
-     else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) > 7 && cellsBuffer[i][j][l] == true)cells[i][j][l] = false;
+     //else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) > 2 && cellsBuffer[i][j][l] == true)cells[i][j][l] = false;
      
-     else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) == 5 && cellsBuffer[i][j][l] == false)cells[i][j][l] = true;
-    }
-   }
-  }
+     //else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) == 3 && cellsBuffer[i][j][l] == false)cells[i][j][l] = true;
+     
+     for(int i = 0; i < cellCount; i++)
+     {
+      for(int j = 0; j < cellCount; j++)
+      {
+       for(int k = 0; k < cellCount; k++)
+       {
+         if(surroundingCells[i][j][k] < 3 && cells[i][j][k] == true)cells[i][j][k] = false;
+         
+         else if(surroundingCells[i][j][k] > 3 && cells[i][j][k] == true)cells[i][j][k] = false;
+         
+         else if(surroundingCells[i][j][k] == 4 && cells[i][j][k] == false)cells[i][j][k] = true;
+         
+         surroundingCells[i][j][k] = 0;
+       }
+      }
+     }
+  
   
   
 }
@@ -131,4 +136,43 @@ boolean rndm(float probability)
 void mouseWheel(MouseEvent event)
 {
   zoom += event.getCount();
+}
+
+void countSurrounding()
+{
+  int x;
+  int y;
+  int z;
+ for(int i = 0; i < cellCount; i++)
+ {
+   
+   if(i == 0)x = 1;
+   else x = 0;
+  for(int j = 0; j < cellCount; j++)
+  {
+    
+    if(j == 0) y = 1;
+    else y = 0;
+   for(int k = 0; k < cellCount; k++)
+   {
+     
+     if(k == 0)z = 1;
+     else z = 0;
+    if(cells[i][j][k] == true)
+    {
+     for(int l = -1 + x; l < 2 - i/(cellCount-1); l++)
+     {
+      for(int m = -1 + y; m < 2 - j/(cellCount-1); m++)
+      {
+       for(int n = -1 + z; n < 2 - k/(cellCount-1); n++)
+       {
+         if(l == 0 && m == 0 && n == 0);
+         else surroundingCells[i + l][j + m][k + n]++; 
+       }
+      }
+     }
+    }
+   }
+  }
+ }
 }
