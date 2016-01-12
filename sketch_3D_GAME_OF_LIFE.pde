@@ -10,6 +10,9 @@ boolean cellsBuffer[][][];
 float probabilityAtStart = .009;
 int coloursForCell[][][][];
 int zoom = cellCount * cellSize;
+int xRotation;
+int yRotation;
+int zRotation;
 void setup()
 {
  // size(500, 500, P3D);
@@ -41,34 +44,33 @@ void setup()
 void draw()
 {
   background(255);
-  
-  text(mouseX, 10, 10);
-  text(mouseY, 10, 30);
-  
-  for(int i = 0; i < cellCount; i++)
+  translate(width/2 - (cellCount * cellSize)/2, height/2 - (cellCount * cellSize)/2, 0);
+  rotateX(xRotation);
+  rotateY(yRotation);
+  rotateZ(zRotation);
+  for(int i = 0 - cellCount/2; i < cellCount/2; i++)
   {
-   for(int j = 0; j < cellCount; j++)
+   for(int j = 0 - cellCount/2; j < cellCount/2; j++)
    {
-    for(int l = 0; l < cellCount; l++)
+    for(int l = 0 - cellCount/2; l < cellCount/2; l++)
     {
    
-     if(cells[i][j][l] == true)
+     if(cells[i + cellCount/2][j + cellCount/2][l + cellCount/2] == true)
      {
      pushMatrix();
      fill(0);
     
      
-     translate(i * cellSize + ((width/2) - ((cellCount * cellSize/2))), j * cellSize + ((height/2) - ((cellCount * cellSize)/2)), l * -1*cellSize - zoom);
-     
+    // translate(i * cellSize + ((width/2) - ((cellCount * cellSize/2))), j * cellSize + ((height/2) - ((cellCount * cellSize)/2)), l * -1*cellSize - zoom);
+     translate(i * cellSize, j * cellSize, l * cellSize);
       //translate(i * cellSize + 390, j * cellSize + 150, l * cellSize - 1000);
      
-     fill(coloursForCell[i][j][l][0], coloursForCell[i][j][l][1], coloursForCell[i][j][l][2]);
+     fill(coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][0], coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][1], coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][2]);
      
      box(cellSize);
      
      popMatrix();
      }
-      cellsBuffer[i][j][l] = cells[i][j][l]; 
     }
    }
   }
@@ -175,4 +177,15 @@ void countSurrounding()
    }
   }
  }
+}
+
+void keyPressed()
+{
+  if(key == 'w')xRotation+=100;
+  if(key == 's')xRotation-=100;
+  if(key == 'a')yRotation+=100;
+  if(key == 'd')yRotation-=100;
+  if(key == 'q')zRotation+=100;
+  if(key == 'e')zRotation-=100;
+  println(1);
 }
