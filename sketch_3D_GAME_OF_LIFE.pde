@@ -44,7 +44,7 @@ void setup()
 void draw()
 {
   background(255);
-  translate(width/2 - (cellCount * cellSize)/2, height/2 - (cellCount * cellSize)/2, 0);
+  translate(width/2, height/2, 0);
   rotateX(xRotation);
   rotateY(yRotation);
   rotateZ(zRotation);
@@ -183,8 +183,8 @@ void keyPressed()
 {
   if(key == 'w')xRotation+=100;
   if(key == 's')xRotation-=100;
-  if(key == 'a')yRotation+=100;
-  if(key == 'd')yRotation-=100;
+  if(key == 'a')yRotation-=100;
+  if(key == 'd')yRotation+=100;
   if(key == 'q')zRotation+=100;
   if(key == 'e')zRotation-=100;
   println(1);
