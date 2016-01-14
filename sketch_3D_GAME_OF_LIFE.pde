@@ -3,7 +3,7 @@
 
 
 int surroundingCells[][][];
-int cellCount = 100;
+int cellCount = 20;
 int cellSize = 5;
 boolean cells[][][];
 boolean cellsBuffer[][][];
@@ -13,11 +13,25 @@ int zoom = cellCount * cellSize;
 int xRotation;
 int yRotation;
 int zRotation;
+String rules[];
+boolean showMenu = true;
 void setup()
 {
  // size(500, 500, P3D);
- frameRate(3);
+  frameRate(3);
   fullScreen(P3D);
+  rules = new String[9];
+  
+  rules[0] = "B4A3";
+  rules[1] = "B4A5";
+  rules[2] = "B4A4";
+  rules[3] = "B4A4A5";
+  rules[4] = "B4A6A7";
+  rules[5] = "B4A5A6";
+  rules[6] = "B4A6";
+  rules[7] = "B3A1";
+  rules[8] = "B4A26";
+  
   surroundingCells = new int[cellCount][cellCount][cellCount];
   cells = new boolean[cellCount][cellCount][cellCount];
   cellsBuffer = new boolean[cellCount][cellCount][cellCount];
@@ -43,62 +57,17 @@ void setup()
 
 void draw()
 {
-  background(255);
-  translate(width/2, height/2, 0);
-  rotateX(xRotation);
-  rotateY(yRotation);
-  rotateZ(zRotation);
-  for(int i = 0 - cellCount/2; i < cellCount/2; i++)
+  if(showMenu)
   {
-   for(int j = 0 - cellCount/2; j < cellCount/2; j++)
-   {
-    for(int l = 0 - cellCount/2; l < cellCount/2; l++)
-    {
-   
-     if(cells[i + cellCount/2][j + cellCount/2][l + cellCount/2] == true)
-     {
-     pushMatrix();
-     fill(0);
-    
-     
-    // translate(i * cellSize + ((width/2) - ((cellCount * cellSize/2))), j * cellSize + ((height/2) - ((cellCount * cellSize)/2)), l * -1*cellSize - zoom);
-     translate(i * cellSize, j * cellSize, l * cellSize);
-      //translate(i * cellSize + 390, j * cellSize + 150, l * cellSize - 1000);
-     
-     fill(coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][0], coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][1], coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][2]);
-     
-     box(cellSize);
-     
-     popMatrix();
-     }
-    }
-   }
+   displayMenu(); 
   }
-   
+  else
+  {
+  displayGame();
   countSurrounding();
-     
-     //if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) < 1 && cellsBuffer[i][j][l] == true)cells[i][j][l] = false;
-     
-     //else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) > 2 && cellsBuffer[i][j][l] == true)cells[i][j][l] = false;
-     
-     //else if(surroundingSquares(i, j, l, x, y, z, i/(cellCount - 1), j/(cellCount - 1), l/(cellCount - 1)) == 3 && cellsBuffer[i][j][l] == false)cells[i][j][l] = true;
-     
-     for(int i = 0; i < cellCount; i++)
-     {
-      for(int j = 0; j < cellCount; j++)
-      {
-       for(int k = 0; k < cellCount; k++)
-       {
-         if(surroundingCells[i][j][k] < 3 && cells[i][j][k] == true)cells[i][j][k] = false;
-         
-         else if(surroundingCells[i][j][k] > 3 && cells[i][j][k] == true)cells[i][j][k] = false;
-         
-         else if(surroundingCells[i][j][k] == 4 && cells[i][j][k] == false)cells[i][j][k] = true;
-         
-         surroundingCells[i][j][k] = 0;
-       }
-      }
-     }
+  setSquares();
+  }
+    
   
   
   
@@ -188,4 +157,141 @@ void keyPressed()
   if(key == 'q')zRotation+=100;
   if(key == 'e')zRotation-=100;
   println(1);
+}
+
+
+void displayMenu()
+{
+  stroke(0);
+  background(0);
+  fill(255);
+  rect(width - width/8, 0, width/8, height);
+  
+  textSize(20);
+  
+  fill(155);
+  rect(width - width/24, height/3, 20, 200);
+  fill(255);
+  rect(width - width/24 - 10, height/3 + 210, 50, 25);
+  stroke(0);
+  line(width - width/24 - 10, height/3 + 200 - cellCount, width - width/24 + 30, height/3 + 200 - cellCount);
+  fill(0);
+  text(cellCount, width - width/24, height/3 + 230);
+  
+  
+  
+  fill(155);
+  rect(width - width/24 * 2, height/3, 20, 200);
+  fill(255);
+  rect(width - width/24 * 2 - 10, height/3 + 210, 50, 25);
+  stroke(0);
+  line(width - width/24 * 2 - 10, height/3 + 200 - cellSize, width - width/24 * 2 + 30, height/3 + 200 - cellSize);
+  fill(0);
+  text(cellSize, width - width/24 * 2, height/3 + 230);
+  
+  stroke(255);
+  //strokeWeight(50);
+  rect(0, 0, height, height);
+  
+  rect(height + 50, 50, width - (height + 50) - width/8 - 50, height/6);
+  fill(255);
+  textSize(100);
+  text("Begin!", height + 150, 170);
+  
+  stroke(255);
+  fill(0);
+  textSize(75);
+  for(int i = 0; i < 3; i++)
+  {
+   for(int j = 0; j < 3; j++)
+   {
+     
+     fill(0);
+     rect(j * (height/3), i * height/3, height/3, height/3);
+     fill(255);
+     text(rules[3 * i + j], j * height/3 + 50, i * height/3 + 150);
+   }
+  }
+}
+
+void displayGame()
+{
+  background(255);
+  translate(width/2, height/2, 0);
+  rotateX(xRotation);
+  rotateY(yRotation);
+  rotateZ(zRotation);
+  for(int i = 0 - cellCount/2; i < cellCount/2; i++)
+  {
+   for(int j = 0 - cellCount/2; j < cellCount/2; j++)
+   {
+    for(int l = 0 - cellCount/2; l < cellCount/2; l++)
+    {
+   
+     if(cells[i + cellCount/2][j + cellCount/2][l + cellCount/2] == true)
+     {
+     pushMatrix();
+     fill(0);
+    
+     
+    // translate(i * cellSize + ((width/2) - ((cellCount * cellSize/2))), j * cellSize + ((height/2) - ((cellCount * cellSize)/2)), l * -1*cellSize - zoom);
+     translate(i * cellSize, j * cellSize, l * cellSize);
+      //translate(i * cellSize + 390, j * cellSize + 150, l * cellSize - 1000);
+     
+     fill(coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][0], coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][1], coloursForCell[i + cellCount/2][j + cellCount/2][l + cellCount/2][2]);
+     
+     box(cellSize);
+     
+     popMatrix();
+     }
+    }
+   }
+  }
+}
+
+
+void setSquares()
+{
+   for(int i = 0; i < cellCount; i++)
+     {
+      for(int j = 0; j < cellCount; j++)
+      {
+       for(int k = 0; k < cellCount; k++)
+       {
+         if(surroundingCells[i][j][k] < 3 && cells[i][j][k] == true)cells[i][j][k] = false;
+         
+         else if(surroundingCells[i][j][k] > 3 && cells[i][j][k] == true)cells[i][j][k] = false;
+         
+         else if(surroundingCells[i][j][k] == 4 && cells[i][j][k] == false)cells[i][j][k] = true;
+         
+         surroundingCells[i][j][k] = 0;
+       }
+      }
+     }
+}
+
+void mouseDragged()
+{
+  if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
+  {
+   cellCount = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
+   cellCount = constrain(cellCount, 20, 200);
+  }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
+  {
+   cellSize = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
+   cellSize = constrain(cellSize, 20, 200);
+  }
+}
+
+void mousePressed()
+{
+  if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
+  {
+   cellCount = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
+   cellCount = constrain(cellCount, 20, 200);
+  }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
+  {
+   cellSize = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
+   cellSize = constrain(cellSize, 20, 200);
+  }
 }
