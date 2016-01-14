@@ -5,11 +5,12 @@
 int surroundingCells[][][];
 int cellCount = 20;
 int cellSize = 5;
+int framesPerSecond;
 boolean cells[][][];
 boolean cellsBuffer[][][];
 float probabilityAtStart = .009;
 int coloursForCell[][][][];
-int zoom = cellCount * cellSize;
+int zoom;
 int xRotation;
 int yRotation;
 int zRotation;
@@ -175,12 +176,12 @@ void countSurrounding()
 
 void keyPressed()
 {
-  if(key == 'w')xRotation+=100;
-  if(key == 's')xRotation-=100;
-  if(key == 'a')yRotation-=100;
-  if(key == 'd')yRotation+=100;
-  if(key == 'q')zRotation+=100;
-  if(key == 'e')zRotation-=100;
+  if(key == 'w')xRotation+=10;
+  if(key == 's')xRotation-=10;
+  if(key == 'a')yRotation-=10;
+  if(key == 'd')yRotation+=10;
+  if(key == 'q')zRotation+=10;
+  if(key == 'e')zRotation-=10;
   println(1);
 }
 
@@ -195,24 +196,42 @@ void displayMenu()
   textSize(20);
   
   fill(155);
-  rect(width - width/24, height/3, 20, 200);
+  rect(width - width/24, height/6, 20, 200);
   fill(255);
-  rect(width - width/24 - 10, height/3 + 210, 50, 25);
+  rect(width - width/24 - 10, height/6 + 210, 50, 25);
   stroke(0);
-  line(width - width/24 - 10, height/3 + 200 - cellCount, width - width/24 + 30, height/3 + 200 - cellCount);
+  line(width - width/24 - 10, height/6 + 200 - framesPerSecond * 3.3, width - width/24 + 30, height/6 + 200 - framesPerSecond * 3.3);
   fill(0);
-  text(cellCount, width - width/24, height/3 + 230);
+  text(framesPerSecond, width - width/24, height/6 + 230);
+  
+  fill(155);
+  rect(width - width/24 * 2, height/6, 20, 200);
+  fill(255);
+  rect(width - width/20 * 2 - 10, height/6 + 210, 75, 25);
+  stroke(0);
+  line(width - width/24 * 2 - 10, height/6 + 200 - probabilityAtStart * 200, width - width/24 * 2 + 30, height/6 + 200 - probabilityAtStart * 200);
+  fill(0);
+  text(probabilityAtStart, width - width/20 * 2, height/6 + 230);
+  
+  fill(155);
+  rect(width - width/24, height/2, 20, 200);
+  fill(255);
+  rect(width - width/24 - 10, height/2 + 210, 50, 25);
+  stroke(0);
+  line(width - width/24 - 10, height/2 + 200 - cellCount, width - width/24 + 30, height/2 + 200 - cellCount);
+  fill(0);
+  text(cellCount, width - width/24, height/2 + 230);
   
   
   
   fill(155);
-  rect(width - width/24 * 2, height/3, 20, 200);
+  rect(width - width/24 * 2, height/2, 20, 200);
   fill(255);
-  rect(width - width/24 * 2 - 10, height/3 + 210, 50, 25);
+  rect(width - width/24 * 2 - 10, height/2 + 210, 50, 25);
   stroke(0);
-  line(width - width/24 * 2 - 10, height/3 + 200 - cellSize * 10, width - width/24 * 2 + 30, height/3 + 200 - cellSize * 10);
+  line(width - width/24 * 2 - 10, height/2 + 200 - cellSize * 10, width - width/24 * 2 + 30, height/2 + 200 - cellSize * 10);
   fill(0);
-  text(cellSize, width - width/24 * 2, height/3 + 230);
+  text(cellSize, width - width/24 * 2, height/2 + 230);
   
   stroke(255);
   //strokeWeight(50);
@@ -252,7 +271,18 @@ void displayMenu()
 void displayGame()
 {
   background(255);
-  translate(width/2, height/2, 0);
+  pushMatrix();
+  fill(0);
+  rect(0, 0, width/20, height/20);
+  fill(255);
+  textSize(20);
+  text("Menu", width/20/10, height/20/2);
+  fill(0);
+  rect(0, height/20, width/20, height/20);
+  fill(255);
+  text("Reset", width/20/10, (height/20) * 1.5);
+  popMatrix();
+  translate(width/2, height/2, zoom);
   rotateX(xRotation);
   rotateY(yRotation);
   rotateZ(zRotation);
@@ -307,35 +337,72 @@ void setSquares()
 
 void mouseDragged()
 {
-  if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
+  if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/2 && mouseY < height/2 + 200 && showMenu)
   {
-   cellCount = (int)map(mouseY, height/3 + 200, height/3, 0, 202);
+   cellCount = (int)map(mouseY, height/2 + 200, height/2, 0, 202);
    cellCount = constrain(cellCount, 20, 200);
-  }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
+  }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/2 && mouseY < height/2 + 200 && showMenu)
   {
-   cellSize = (int)map(mouseY, height/3 + 200, height/3, 0, 21);
+   cellSize = (int)map(mouseY, height/2 + 200, height/2, 0, 21);
    cellSize = constrain(cellSize, 2, 20);
+  }else if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/6 && mouseY < height/6 + 200 && showMenu)
+  {
+   framesPerSecond = (int)map(mouseY, height/6 + 200, height/6, 1, 61);
+   //cellCount = constrain(cellCount, 20, 200);
+  }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/6 && mouseY < height/6 + 200 && showMenu)
+  {
+   
+   //cellSize = constrain(cellSize, 2, 20);
+   probabilityAtStart = map(mouseY, height/6 + 200, height/6, 0.001, 1);
   }
 }
 
 void mousePressed()
 {
-  if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
+  if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/2 && mouseY < height/2 + 200 && showMenu)
   {
-   cellCount = (int)map(mouseY, height/3 + 200, height/3, 0, 202);
+   cellCount = (int)map(mouseY, height/2 + 200, height/2, 0, 202);
    cellCount = constrain(cellCount, 20, 201);
-  }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
+  }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/2 && mouseY < height/2 + 200 && showMenu)
   {
-   cellSize = (int)map(mouseY, height/3 + 200, height/3, 0, 21);
+   cellSize = (int)map(mouseY, height/2 + 200, height/2, 0, 21);
    cellSize = constrain(cellSize, 2, 20);
+  }else if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/6 && mouseY < height/6 + 200 && showMenu)
+  {
+   framesPerSecond = (int)map(mouseY, height/6 + 200, height/6, 1, 61);
+   //cellCount = constrain(cellCount, 20, 200);
+  }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/6 && mouseY < height/6 + 200 && showMenu)
+  {
+   
+   //cellSize = constrain(cellSize, 2, 20);
+   probabilityAtStart = map(mouseY, height/6 + 200, height/6, 0.001, 1);
   }else if(mouseX < height && mouseY < height)
   {
     ruleSet[whichRule] = false;
     whichRule = (int)map(mouseX, 0, height, 0, 3) + (int)map(mouseY, 0, height, 0, 3) * 3;
     ruleSet[whichRule] = true;
-  }else if(mouseX > height + 50 && mouseX < height + 50 + width - (height + 50) - width/8 - 50 && mouseY > 50 && mouseY < 50 + height/6)
+  }else if(mouseX > height + 50 && mouseX < height + 50 + width - (height + 50) - width/8 - 50 && mouseY > 50 && mouseY < 50 + height/6 && showMenu)
   {
-   cells = new boolean[cellCount][cellCount][cellCount];
+   setGame();
+  }else if(mouseX > 0 && mouseX < width/20 && mouseY > 0 && mouseY < height/20 && showMenu == false)
+  {
+    println("menu");
+   frameRate(60);
+   showMenu = true; 
+   
+   
+  }else if(mouseX > 0 && mouseX < width/20 && mouseY > height/20 && mouseY < height/10 && showMenu == false)
+  {
+    setGame();
+    println("reset");
+  }
+  
+  
+}
+
+void setGame()
+{
+  cells = new boolean[cellCount][cellCount][cellCount];
    surroundingCells = new int[cellCount][cellCount][cellCount];
    coloursForCell = new int[cellCount][cellCount][cellCount][3];
    for(int i = 0; i < cellCount; i++)
@@ -353,8 +420,6 @@ void mousePressed()
     }
    }
   }
+   frameRate(framesPerSecond);
    showMenu = false; 
-  }
-  
-  
 }
