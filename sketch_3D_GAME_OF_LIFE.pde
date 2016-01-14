@@ -23,7 +23,7 @@ int rulesAliveMax[];
 void setup()
 {
  // size(500, 500, P3D);
-  frameRate(3);
+  //frameRate(3);
   fullScreen(P3D);
   rules = new String[9];
   ruleSet = new boolean[9];
@@ -210,7 +210,7 @@ void displayMenu()
   fill(255);
   rect(width - width/24 * 2 - 10, height/3 + 210, 50, 25);
   stroke(0);
-  line(width - width/24 * 2 - 10, height/3 + 200 - cellSize, width - width/24 * 2 + 30, height/3 + 200 - cellSize);
+  line(width - width/24 * 2 - 10, height/3 + 200 - cellSize * 10, width - width/24 * 2 + 30, height/3 + 200 - cellSize * 10);
   fill(0);
   text(cellSize, width - width/24 * 2, height/3 + 230);
   
@@ -309,12 +309,12 @@ void mouseDragged()
 {
   if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
   {
-   cellCount = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
+   cellCount = (int)map(mouseY, height/3 + 200, height/3, 0, 202);
    cellCount = constrain(cellCount, 20, 200);
   }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
   {
-   cellSize = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
-   cellSize = constrain(cellSize, 20, 200);
+   cellSize = (int)map(mouseY, height/3 + 200, height/3, 0, 21);
+   cellSize = constrain(cellSize, 2, 20);
   }
 }
 
@@ -322,12 +322,12 @@ void mousePressed()
 {
   if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
   {
-   cellCount = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
-   cellCount = constrain(cellCount, 20, 200);
+   cellCount = (int)map(mouseY, height/3 + 200, height/3, 0, 202);
+   cellCount = constrain(cellCount, 20, 201);
   }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/3 && mouseY < height - height/3 && showMenu)
   {
-   cellSize = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
-   cellSize = constrain(cellSize, 20, 200);
+   cellSize = (int)map(mouseY, height/3 + 200, height/3, 0, 21);
+   cellSize = constrain(cellSize, 2, 20);
   }else if(mouseX < height && mouseY < height)
   {
     ruleSet[whichRule] = false;
