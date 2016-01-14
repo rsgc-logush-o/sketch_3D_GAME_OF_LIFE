@@ -363,26 +363,32 @@ void mousePressed()
   {
    cellCount = (int)map(mouseY, height/2 + 200, height/2, 0, 202);
    cellCount = constrain(cellCount, 20, 201);
+   println("cellCount");
   }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/2 && mouseY < height/2 + 200 && showMenu)
   {
    cellSize = (int)map(mouseY, height/2 + 200, height/2, 0, 21);
    cellSize = constrain(cellSize, 2, 20);
+   println("cellSize");
   }else if(mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/6 && mouseY < height/6 + 200 && showMenu)
   {
    framesPerSecond = (int)map(mouseY, height/6 + 200, height/6, 1, 61);
    //cellCount = constrain(cellCount, 20, 200);
+   println("framesPerSecond");
   }else if(mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/6 && mouseY < height/6 + 200 && showMenu)
   {
    
    //cellSize = constrain(cellSize, 2, 20);
    probabilityAtStart = map(mouseY, height/6 + 200, height/6, 0.001, 1);
-  }else if(mouseX < height && mouseY < height)
+   println("probabilityAtStart");
+  }else if(mouseX < height && mouseY < height && showMenu)
   {
     ruleSet[whichRule] = false;
     whichRule = (int)map(mouseX, 0, height, 0, 3) + (int)map(mouseY, 0, height, 0, 3) * 3;
     ruleSet[whichRule] = true;
+    println("ruleSet");
   }else if(mouseX > height + 50 && mouseX < height + 50 + width - (height + 50) - width/8 - 50 && mouseY > 50 && mouseY < 50 + height/6 && showMenu)
   {
+   println("setGame");
    setGame();
   }else if(mouseX > 0 && mouseX < width/20 && mouseY > 0 && mouseY < height/20 && showMenu == false)
   {
