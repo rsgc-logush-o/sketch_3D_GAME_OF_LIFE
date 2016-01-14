@@ -15,12 +15,51 @@ int yRotation;
 int zRotation;
 String rules[];
 boolean showMenu = true;
+boolean ruleSet[];
+int whichRule;
+int rulesBorn[];
+int rulesAliveMin[];
+int rulesAliveMax[];
 void setup()
 {
  // size(500, 500, P3D);
   frameRate(3);
   fullScreen(P3D);
   rules = new String[9];
+  ruleSet = new boolean[9];
+  rulesBorn = new int[9];
+  rulesAliveMin = new int[9];
+  rulesAliveMax = new int[9];
+  
+  rulesBorn[0] = 4;
+  rulesBorn[1] = 4;
+  rulesBorn[2] = 4;
+  rulesBorn[3] = 4;
+  rulesBorn[4] = 4;
+  rulesBorn[5] = 4;
+  rulesBorn[6] = 4;
+  rulesBorn[7] = 3;
+  rulesBorn[8] = 4;
+  
+  rulesAliveMin[0] = 3;
+  rulesAliveMin[1] = 5;
+  rulesAliveMin[2] = 4;
+  rulesAliveMin[3] = 4;
+  rulesAliveMin[4] = 6;
+  rulesAliveMin[5] = 5;
+  rulesAliveMin[6] = 6;
+  rulesAliveMin[7] = 1;
+  rulesAliveMin[8] = 26;
+  
+  rulesAliveMax[0] = 3;
+  rulesAliveMax[1] = 5;
+  rulesAliveMax[2] = 4;
+  rulesAliveMax[3] = 5;
+  rulesAliveMax[4] = 7;
+  rulesAliveMax[5] = 6;
+  rulesAliveMax[6] = 6;
+  rulesAliveMax[7] = 1;
+  rulesAliveMax[8] = 26;
   
   rules[0] = "B4A3";
   rules[1] = "B4A5";
@@ -32,26 +71,12 @@ void setup()
   rules[7] = "B3A1";
   rules[8] = "B4A26";
   
-  surroundingCells = new int[cellCount][cellCount][cellCount];
-  cells = new boolean[cellCount][cellCount][cellCount];
-  cellsBuffer = new boolean[cellCount][cellCount][cellCount];
-  coloursForCell = new int[cellCount][cellCount][cellCount][3];
   
-  for(int i = 0; i < cellCount; i++)
-  {
-   for(int j = 0; j < cellCount; j++)
-   {
-    for(int l = 0; l < cellCount; l++)
-    {
-     cells[i][j][l] = rndm(probabilityAtStart);
-     
-     for(int k = 0; k < 3; k++)
-     {
-      coloursForCell[i][j][l][k] = (int)random(0, 255);
-     }
-    }
-   }
-  }
+  
+  cellsBuffer = new boolean[cellCount][cellCount][cellCount];
+  
+  
+  
   
 }
 
@@ -195,21 +220,31 @@ void displayMenu()
   
   rect(height + 50, 50, width - (height + 50) - width/8 - 50, height/6);
   fill(255);
-  textSize(100);
-  text("Begin!", height + 150, 170);
+  textSize(75);
+  text("Begin!", height + 50, 130);
   
   stroke(255);
   fill(0);
-  textSize(75);
+  textSize(50);
   for(int i = 0; i < 3; i++)
   {
    for(int j = 0; j < 3; j++)
    {
+     if(ruleSet[3 * i + j])
+     {
+       fill(255);
+       rect(j * (height/3), i * height/3, height/3, height/3);
+       fill(0);
+       text(rules[3 * i + j], j * height/3 + 50, i * height/3 + 150);
+     }else
+     {
+      fill(0);
+      rect(j * (height/3), i * height/3, height/3, height/3);
+      fill(255);
+      text(rules[3 * i + j], j * height/3 + 50, i * height/3 + 150);
+     }
      
-     fill(0);
-     rect(j * (height/3), i * height/3, height/3, height/3);
-     fill(255);
-     text(rules[3 * i + j], j * height/3 + 50, i * height/3 + 150);
+     
    }
   }
 }
@@ -258,11 +293,11 @@ void setSquares()
       {
        for(int k = 0; k < cellCount; k++)
        {
-         if(surroundingCells[i][j][k] < 3 && cells[i][j][k] == true)cells[i][j][k] = false;
+         if(surroundingCells[i][j][k] < rulesAliveMin[whichRule] && cells[i][j][k] == true)cells[i][j][k] = false;
          
-         else if(surroundingCells[i][j][k] > 3 && cells[i][j][k] == true)cells[i][j][k] = false;
+         else if(surroundingCells[i][j][k] > rulesAliveMax[whichRule] && cells[i][j][k] == true)cells[i][j][k] = false;
          
-         else if(surroundingCells[i][j][k] == 4 && cells[i][j][k] == false)cells[i][j][k] = true;
+         else if(surroundingCells[i][j][k] == rulesBorn[whichRule] && cells[i][j][k] == false)cells[i][j][k] = true;
          
          surroundingCells[i][j][k] = 0;
        }
@@ -293,5 +328,33 @@ void mousePressed()
   {
    cellSize = (int)map(mouseY, height/3 + 200, height/3, 20, 200);
    cellSize = constrain(cellSize, 20, 200);
+  }else if(mouseX < height && mouseY < height)
+  {
+    ruleSet[whichRule] = false;
+    whichRule = (int)map(mouseX, 0, height, 0, 3) + (int)map(mouseY, 0, height, 0, 3) * 3;
+    ruleSet[whichRule] = true;
+  }else if(mouseX > height + 50 && mouseX < height + 50 + width - (height + 50) - width/8 - 50 && mouseY > 50 && mouseY < 50 + height/6)
+  {
+   cells = new boolean[cellCount][cellCount][cellCount];
+   surroundingCells = new int[cellCount][cellCount][cellCount];
+   coloursForCell = new int[cellCount][cellCount][cellCount][3];
+   for(int i = 0; i < cellCount; i++)
+  {
+   for(int j = 0; j < cellCount; j++)
+   {
+    for(int l = 0; l < cellCount; l++)
+    {
+     cells[i][j][l] = rndm(probabilityAtStart);
+     
+     for(int k = 0; k < 3; k++)
+     {
+      coloursForCell[i][j][l][k] = (int)random(0, 255);
+     }
+    }
+   }
   }
+   showMenu = false; 
+  }
+  
+  
 }
