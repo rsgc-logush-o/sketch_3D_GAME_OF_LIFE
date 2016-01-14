@@ -1,6 +1,9 @@
 //MAKE AN ARRAY FOR THE AMOUNT SURROUNDING EACH THING
 
 
+Mouse mouse;
+Game game;
+Menu menu;
 
 int surroundingCells[][][];
 int cellCount = 20;
@@ -100,28 +103,7 @@ void draw()
 }
 
 
-int surroundingSquares(int cellX, int cellY, int cellZ, int edgeXZero, int edgeYZero, int edgeZZero, int edgeXEnd, int edgeYEnd, int edgeZEnd)
-{
-  int cellsSurrounding = 0;
- 
-  
-  
-  for(int i = -1 + edgeXZero; i < 2 - edgeXEnd; i++)
-  {
-   
-   for(int j = -1 + edgeYZero; j < 2 - edgeYEnd; j++)
-   {
-     
-    for(int l = -1 + edgeZZero; l < 2 - edgeZEnd; l++)
-    {
-      if(l == 0 && i == 0 && j == 0);
-      else if(cellsBuffer[cellX + i][cellY + j][cellZ + l] == true)cellsSurrounding++;
-    }
-   }
-  }
-  
-  return cellsSurrounding;
-}
+
 
 
 boolean rndm(float probability)
@@ -389,7 +371,7 @@ void mousePressed()
   }else if(mouseX > height + 50 && mouseX < height + 50 + width - (height + 50) - width/8 - 50 && mouseY > 50 && mouseY < 50 + height/6 && showMenu)
   {
    println("setGame");
-   setGame();
+   startGame();
   }else if(mouseX > 0 && mouseX < width/20 && mouseY > 0 && mouseY < height/20 && showMenu == false)
   {
     println("menu");
@@ -399,14 +381,14 @@ void mousePressed()
    
   }else if(mouseX > 0 && mouseX < width/20 && mouseY > height/20 && mouseY < height/10 && showMenu == false)
   {
-    setGame();
+    startGame();
     println("reset");
   }
   
   
 }
 
-void setGame()
+void startGame()
 {
   cells = new boolean[cellCount][cellCount][cellCount];
    surroundingCells = new int[cellCount][cellCount][cellCount];
