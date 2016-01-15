@@ -17,7 +17,10 @@ class Menu
     line(width - width/24 - 10, height/6 + 200 - framesPerSecond * 3.3, width - width/24 + 30, height/6 + 200 - framesPerSecond * 3.3);
     fill(0);
     text(framesPerSecond, width - width/24, height/6 + 230);
+    textSize(25);
+    text("FPS", width - width/20, height/7);
 
+    textSize(20);
     fill(155);
     rect(width - width/24 * 2, height/6, 20, 200);
     fill(255);
@@ -26,26 +29,35 @@ class Menu
     line(width - width/24 * 2 - 10, height/6 + 200 - probabilityAtStart * 200, width - width/24 * 2 + 30, height/6 + 200 - probabilityAtStart * 200);
     fill(0);
     text(probabilityAtStart, width - width/20 * 2, height/6 + 230);
+    textSize(25);
+    text("%", width - width/12, height/7);
 
+    textSize(20);
     fill(155);
-    rect(width - width/24, height/2, 20, 200);
+    rect(width - width/24, (height/3) * 2, 20, 200);
     fill(255);
-    rect(width - width/24 - 10, height/2 + 210, 50, 25);
+    rect(width - width/24 - 10, (height/3) * 2 + 210, 50, 25);
     stroke(0);
-    line(width - width/24 - 10, height/2 + 200 - cellCount, width - width/24 + 30, height/2 + 200 - cellCount);
+    line(width - width/24 - 10, (height/3) * 2 + 200 - cellCount, width - width/24 + 30, (height/3) * 2 + 200 - cellCount);
     fill(0);
-    text(cellCount, width - width/24, height/2 + 230);
+    text(cellCount, width - width/24, (height/3) * 2 + 230);
+    textSize(25);
+    text("#", width - width/22, (height/3) * 1.8);
+    text("of", width - width/22, (height/3) * 1.87);
+    text("Cells", width - width/20, (height/3) * 1.97);
 
-
-
+    textSize(20);
     fill(155);
-    rect(width - width/24 * 2, height/2, 20, 200);
+    rect(width - width/24 * 2, (height/3) * 2, 20, 200);
     fill(255);
-    rect(width - width/24 * 2 - 10, height/2 + 210, 50, 25);
+    rect(width - width/24 * 2 - 10, (height/3) * 2 + 210, 50, 25);
     stroke(0);
-    line(width - width/24 * 2 - 10, height/2 + 200 - cellSize * 10, width - width/24 * 2 + 30, height/2 + 200 - cellSize * 10);
+    line(width - width/24 * 2 - 10, (height/3) * 2 + 200 - cellSize * 10, width - width/24 * 2 + 30,(height/3) * 2 + 200 - cellSize * 10);
     fill(0);
-    text(cellSize, width - width/24 * 2, height/2 + 230);
+    text(cellSize, width - width/24 * 2, (height/3) * 2 + 230);
+    textSize(25);
+    text("Cell", width - width/10, (height/3) * 1.87);
+    text("Size", width - width/10, (height/3) * 1.97);
 
     stroke(255);
     //strokeWeight(50);

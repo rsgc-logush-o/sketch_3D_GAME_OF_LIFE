@@ -3,9 +3,9 @@ Game game;
 Menu menu;
 
 int zoom;
-int xRotation;
-int yRotation;
-int zRotation;
+float xRotation;
+float yRotation;
+float zRotation;
 int whichRule;
 
 int cellCount = 20;
@@ -108,12 +108,12 @@ void mouseWheel(MouseEvent event)
 
 void keyPressed()
 {
-  if (key == 'w')xRotation+=1;
-  if (key == 's')xRotation-=1;
-  if (key == 'a')yRotation-=1;
-  if (key == 'd')yRotation+=1;
-  if (key == 'q')zRotation+=1;
-  if (key == 'e')zRotation-=1;
+  if (key == 'w')xRotation+=.1;
+  if (key == 's')xRotation-=.1;
+  if (key == 'a')yRotation-=.1;
+  if (key == 'd')yRotation+=.1;
+  if (key == 'q')zRotation+=.1;
+  if (key == 'e')zRotation-=.1;
 }
 
 void mouseDragged()

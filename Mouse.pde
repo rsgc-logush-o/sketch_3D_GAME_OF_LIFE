@@ -2,13 +2,13 @@ class Mouse
 {
   void menu()
   {
-    if (mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/2 && mouseY < height/2 + 200)
+    if (mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > (height/3) * 2 && mouseY < (height/3) * 2 + 200)
     {
-      cellCount = (int)map(mouseY, height/2 + 200, height/2, 0, 202);
+      cellCount = (int)map(mouseY, (height/3) * 2 + 200, (height/3) * 2, 0, 202);
       cellCount = constrain(cellCount, 20, 201);
-    } else if (mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > height/2 && mouseY < height/2 + 200)
+    } else if (mouseX > width - width/24 * 2 && mouseX < width - width/24 * 2 + 20 && mouseY > (height/3) * 2 && mouseY < (height/3) * 2 + 200)
     {
-      cellSize = (int)map(mouseY, height/2 + 200, height/2, 0, 21);
+      cellSize = (int)map(mouseY, (height/3) * 2 + 200, (height/3) * 2, 0, 21);
       cellSize = constrain(cellSize, 2, 20);
     } else if (mouseX > width - width/24 && mouseX < width - width/24 + 20 && mouseY > height/6 && mouseY < height/6 + 200)
     {
