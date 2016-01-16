@@ -31,11 +31,11 @@ class Game
     
     //These for loops go through the cells and display them
     //The reason it starts as the cell count /-2 is because this allows them to show around the center of the screen
-    for (int i = cellCount/-2; i < cellCount/2; i++)
+    for (int i = cellCount/(-2); i < cellCount/2; i++)
     {
-      for (int j = 0 - cellCount/-2; j < cellCount/2; j++)
+      for (int j = cellCount/(-2); j < cellCount/2; j++)
       {
-        for (int l = 0 - cellCount/-2; l < cellCount/2; l++)
+        for (int l = cellCount/(-2); l < cellCount/2; l++)
         {
 
           //This checks if the current cell in the loop is true and if it is it will display it

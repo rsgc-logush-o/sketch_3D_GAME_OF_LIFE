@@ -70,13 +70,13 @@ class Menu
 
     //This is the rectangle and text for the begin button
     stroke(255);
-    rect(height + 50, 50, width - (height + 50) - width/8 - 50, height/6);
+    rect(height + height/21.6, height/21.6, width/4, height/6);
     fill(255);
-    textSize(75);
-    text("Begin!", height + 50, 130);
+    textSize(width*height/16588.8);
+    text("Begin!", height + height/21.6 * 2, height/8.3 + height/21.6);
 
     //This sets the text size for the strings displaying the different rules
-    textSize(50);
+    textSize(width * height / 27648);
     
     //These loops display the rule selection buttons and the text in them to say what the rule is
     for (int i = 0; i < 3; i++)
@@ -90,14 +90,14 @@ class Menu
           fill(255);
           rect(j * (height/3), i * height/3, height/3, height/3);
           fill(0);
-          text(rules[3 * i + j], j * height/3 + 50, i * height/3 + 150);
+          text(rules[3 * i + j], j * height/3 + height/6 - rules[3 * i + j].length() * (width * height / 27648)/3, i * height/3 + height/5.4);
         } else
         {
           //If this is the rule that is not selected than it sets the box to black and the text to white
           fill(0);
           rect(j * (height/3), i * height/3, height/3, height/3);
           fill(255);
-          text(rules[3 * i + j], j * height/3 + 50, i * height/3 + 150);
+          text(rules[3 * i + j],j * height/3 + height/6 - rules[3 * i + j].length() * (width * height / 27648)/3, i * height/3 + height/5.4);
         }
       }
     }
