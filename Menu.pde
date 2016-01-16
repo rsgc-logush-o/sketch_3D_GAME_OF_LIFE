@@ -60,7 +60,6 @@ class Menu
     text("Size", width - width/10, (height/3) * 1.97);
 
     stroke(255);
-    //strokeWeight(50);
     rect(0, 0, height, height);
 
     rect(height + 50, 50, width - (height + 50) - width/8 - 50, height/6);

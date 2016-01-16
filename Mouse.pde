@@ -23,7 +23,6 @@ class Mouse
       ruleSet[whichRule] = true;
     } else if (mouseX > height + 50 && mouseX < height + 50 + width - (height + 50) - width/8 - 50 && mouseY > 50 && mouseY < 50 + height/6)
     {
-      println("setGame");
       game.start();
     }
   }
@@ -32,13 +31,11 @@ class Mouse
   {
     if (mouseX > 0 && mouseX < width/20 && mouseY > 0 && mouseY < height/20)
     {
-      println("menu");
       frameRate(60);
       showMenu = true;
     } else if (mouseX > 0 && mouseX < width/20 && mouseY > height/20 && mouseY < height/10)
     {
       game.start();
-      println("reset");
     }
   }
 }

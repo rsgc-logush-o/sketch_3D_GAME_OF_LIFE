@@ -1,27 +1,45 @@
-Mouse mouse;
-Game game;
-Menu menu;
+Mouse mouse;//Creating a new instance of the mouse class which handles the mouse clicks
+Game game;//Creating a new instance of the game class which handles displaying the game and checking and changing the cubes
+Menu menu;//Creating a new instance of the menu class which handles displaying the menu
 
+//This keeps track of how far zoomed in/out of the game you are
 int zoom;
+
+//These variables keep track of the rotation of the cube along each axis
 float xRotation;
 float yRotation;
 float zRotation;
+
+//This is set to what rule set the user selects at the start of the game (0 - 8)
 int whichRule;
 
+//This holds the dimensions of the area for the cells (area = cellCount^3)
 int cellCount = 20;
+
+//This holds the size (int pixels) of each cell
 int cellSize = 5;
+
+//This holds the fps for the game screen it is adjustable because at a lower framerate you can see the formations gradually evolve
 int framesPerSecond = 2;
+
+//This holds the probability of the cells being alive when the game starts
 float probabilityAtStart = .009;
 
+//This holds all of the rules so that they can be displayed in the menu screen
 String rules[];
 
+//This is what lets the program know whether to be on the menu screen or not
 boolean showMenu = true;
 
+//These arrays hold the rules for the program in numbers so that they can be fed to the if statements deciding what to do with the cells
 int rulesBorn[];
 int rulesAliveMin[];
 int rulesAliveMax[];
 
+//
 int surroundingCells[][][];
+
+
 int coloursForCell[][][][];
 
 boolean ruleSet[];
@@ -106,6 +124,7 @@ void mouseWheel(MouseEvent event)
   zoom += event.getCount();
 }
 
+//This function handles setting the rotation of the cube when different keys are pressed
 void keyPressed()
 {
   if (key == 'w')xRotation+=.1;
@@ -115,6 +134,7 @@ void keyPressed()
   if (key == 'q')zRotation+=.1;
   if (key == 'e')zRotation-=.1;
 }
+
 
 void mouseDragged()
 {
