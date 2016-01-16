@@ -1,14 +1,20 @@
+//This is the menu class
+//It is responsible for displaying the menu
+
 class Menu
 {
+  //This updates the display of the menu
   void update()
   {
     stroke(0);
     background(0);
+    
+    //This draws the rectangle on the right which has all of the menu sliders
     fill(255);
     rect(width - width/8, 0, width/8, height);
 
+    //This displays the FPS slider along with the text that displays it's value, the text box, and it's label
     textSize(20);
-
     fill(155);
     rect(width - width/24, height/6, 20, 200);
     fill(255);
@@ -20,6 +26,7 @@ class Menu
     textSize(25);
     text("FPS", width - width/20, height/7);
 
+    //This displays the probability slider along with the text that displays it's value, the text box, and it's label
     textSize(20);
     fill(155);
     rect(width - width/24 * 2, height/6, 20, 200);
@@ -32,6 +39,7 @@ class Menu
     textSize(25);
     text("%", width - width/12, height/7);
 
+    //This displays the cellCount slider along with the text that displays it's value, the text box, and it's label
     textSize(20);
     fill(155);
     rect(width - width/24, (height/3) * 2, 20, 200);
@@ -46,6 +54,7 @@ class Menu
     text("of", width - width/22, (height/3) * 1.87);
     text("Cells", width - width/20, (height/3) * 1.97);
 
+    //This displays the cellSize slider along with the text that displays it's value, the text box, and it's label
     textSize(20);
     fill(155);
     rect(width - width/24 * 2, (height/3) * 2, 20, 200);
@@ -59,29 +68,32 @@ class Menu
     text("Cell", width - width/10, (height/3) * 1.87);
     text("Size", width - width/10, (height/3) * 1.97);
 
+    //This is the rectangle and text for the begin button
     stroke(255);
-    rect(0, 0, height, height);
-
     rect(height + 50, 50, width - (height + 50) - width/8 - 50, height/6);
     fill(255);
     textSize(75);
     text("Begin!", height + 50, 130);
 
-    stroke(255);
-    fill(0);
+    //This sets the text size for the strings displaying the different rules
     textSize(50);
+    
+    //These loops display the rule selection buttons and the text in them to say what the rule is
     for (int i = 0; i < 3; i++)
     {
       for (int j = 0; j < 3; j++)
       {
+        //This checks if this is the rule that is selected and if so then it will display the square as white and the text as black
         if (ruleSet[3 * i + j])
         {
+          //Draws the box for the button and the text saying the rule in the box
           fill(255);
           rect(j * (height/3), i * height/3, height/3, height/3);
           fill(0);
           text(rules[3 * i + j], j * height/3 + 50, i * height/3 + 150);
         } else
         {
+          //If this is the rule that is not selected than it sets the box to black and the text to white
           fill(0);
           rect(j * (height/3), i * height/3, height/3, height/3);
           fill(255);
