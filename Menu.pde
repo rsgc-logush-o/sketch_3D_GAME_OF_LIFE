@@ -70,7 +70,7 @@ class Menu
 
     //This is the rectangle and text for the begin button
     stroke(255);
-    rect(height + height/21.6, height/21.6, width/4, height/6);
+    rect(height + height/21.6, height/21.6, width - height - width/8 - (height/21.6) * 2, height/6);
     fill(255);
     textSize(width*height/16588.8);
     text("Begin!", height + height/21.6 * 2, height/8.3 + height/21.6);
